@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
-
 @Slf4j
 @RestController
 @RequestMapping("")
@@ -33,7 +31,7 @@ public class MessageAPI {
     @PostMapping("/chat")
     public ResponseEntity postMessage(@RequestBody MessageDTO messageDTO) {
         if (messageDTO.getUsername() != null && messageDTO.getText() != null) {
-            Map<String, Long> result = messageService.storeMessage(messageDTO);
+            MessageDTO result = messageService.storeMessage(messageDTO);
             return ResponseEntity.status(HttpStatus.CREATED)
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(result);

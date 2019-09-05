@@ -38,11 +38,11 @@ public class TestMessageAPI {
         messageDTO.setTimeout(1);
 
         //Verify message creation
-        Map<String, Long> result = messageService.storeMessage(messageDTO);
-        assertTrue("One message published", result.size() == 1);
+        MessageDTO result = messageService.storeMessage(messageDTO);
+        assertTrue("One message published", result != null && null != result.getId());
 
         //Verify get message for id
-        Long messageId = result.get("id");
+        Long messageId = result.getId();
         MessageDTO message = messageService.getMessageForId(messageId);
         assertTrue("verify text", exampleText.equals(message.getText()));
         assertTrue("verify username", user.equals(message.getUsername()));

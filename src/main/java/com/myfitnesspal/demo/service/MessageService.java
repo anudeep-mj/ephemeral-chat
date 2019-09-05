@@ -8,9 +8,7 @@ import org.springframework.stereotype.Service;
 import org.apache.commons.lang3.time.DateUtils;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class MessageService {
@@ -18,7 +16,8 @@ public class MessageService {
     @Autowired
     MessageRepository messageRepository;
 
-    public Map<String, Long> storeMessage(MessageDTO messageDTO) {
+    public MessageDTO storeMessage(MessageDTO messageDTO) {
+        MessageDTO result = new MessageDTO();
         String username = messageDTO.getUsername();
         String text = messageDTO.getText();
         Integer expiry = messageDTO.getTimeout();
@@ -34,9 +33,8 @@ public class MessageService {
         messageEntity.setExpirationTime(expirationTime);
 
         messageRepository.save(messageEntity);
-        Map<String, Long> msgResult = new HashMap<>();
-        msgResult.put("id", messageEntity.getId());
-        return msgResult;
+        result.setId(messageEntity.getId());
+        return result;
     }
 
     public MessageDTO getMessageForId(Long messageId) {
