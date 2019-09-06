@@ -29,7 +29,7 @@ public class MessageService {
         messageEntity.setText(text);
         messageEntity.setUserName(username);
 
-        Date expirationTime = DateUtils.addMinutes(new Date(), expiry);
+        Date expirationTime = DateUtils.addSeconds(new Date(), expiry);
         messageEntity.setExpirationTime(expirationTime);
 
         messageRepository.save(messageEntity);
@@ -64,5 +64,9 @@ public class MessageService {
         }
 
         return messageDTOList;
+    }
+
+    public boolean validateTimeout(MessageDTO messageDTO) {
+        return messageDTO.getTimeout() != null && messageDTO.getTimeout() < 0;
     }
 }

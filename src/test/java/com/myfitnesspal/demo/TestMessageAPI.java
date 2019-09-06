@@ -35,7 +35,7 @@ public class TestMessageAPI {
         MessageDTO messageDTO = new MessageDTO();
         messageDTO.setUsername(user);
         messageDTO.setText(exampleText);
-        messageDTO.setTimeout(1);
+        messageDTO.setTimeout(5);
 
         //Verify message creation
         MessageDTO result = messageService.storeMessage(messageDTO);
@@ -61,8 +61,8 @@ public class TestMessageAPI {
 
 
         //Verify message doesnt show up after message expiry
-        Thread.sleep(60000);
+        Thread.sleep(5000);
         messageDTOS = messageService.getAllMessages(user);
-        assertTrue(messageDTOS.size() == 0);
+        assertTrue("message doesnt show in list after expiry", messageDTOS.size() == 0);
     }
 }

@@ -30,11 +30,23 @@ public class MessageAPI {
      */
     @PostMapping("/chat")
     public ResponseEntity postMessage(@RequestBody MessageDTO messageDTO) {
+
         if (messageDTO.getUsername() != null && messageDTO.getText() != null) {
-            MessageDTO result = messageService.storeMessage(messageDTO);
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(result);
+            try {
+                if (messageService.validateTimeout(messageDTO)) return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body("Timeout cannot be negative");
+
+                MessageDTO result = messageService.storeMessage(messageDTO);
+                return ResponseEntity.status(HttpStatus.CREATED)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(result);
+
+            } catch (Exception e) {
+                log.error("messageDTO failed to store", e);
+                throw e;
+            }
+
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .contentType(MediaType.APPLICATION_JSON)

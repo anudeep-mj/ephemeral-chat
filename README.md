@@ -2,7 +2,7 @@ Instructions on how to compile your service
 
 - Go to demo folder
 - Run the command: "mvn clean install -DskipTests=true"   
-(If you compile with tests (i.e mvn clean install), it will run the 1 min integration test i have for my verification)
+(If you compile with tests (i.e mvn clean install), it will run the 15s integration test i have for my verification)
 
 Instructions on how to run your service locally
 
