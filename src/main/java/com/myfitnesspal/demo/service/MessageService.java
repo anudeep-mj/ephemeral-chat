@@ -31,6 +31,7 @@ public class MessageService {
 
         Date expirationTime = DateUtils.addSeconds(new Date(), expiry);
         messageEntity.setExpirationTime(expirationTime);
+        messageEntity.setExpired(false);
 
         messageRepository.save(messageEntity);
         result.setId(messageEntity.getId());
@@ -51,7 +52,7 @@ public class MessageService {
 
     public List<MessageDTO> getAllMessages(String username) {
         List<MessageDTO> messageDTOList = new ArrayList<>();
-        List<MessageEntity> messages = messageRepository.findByUserName(username);
+        List<MessageEntity> messages = messageRepository.findByUserNameAndExpiredIsFalse(username);
 
         for (MessageEntity messageEntity : messages) {
             int flag = messageEntity.getExpirationTime().compareTo(new Date());
@@ -60,6 +61,8 @@ public class MessageService {
                 messageDTO.setId(messageEntity.getId());
                 messageDTO.setText(messageEntity.getText());
                 messageDTOList.add(messageDTO);
+                messageEntity.setExpired(true);
+                messageRepository.save(messageEntity);
             }
         }
 

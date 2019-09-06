@@ -12,7 +12,7 @@ import javax.persistence.Index;
 import javax.persistence.Table;
 import java.util.Date;
 
-@Table(name = "MESSAGE_ENTITY", indexes = {@Index(name = "idx_userName", columnList = "userName")})
+@Table(name = "MESSAGE_ENTITY", indexes = {@Index(name = "idx_userName_expired", columnList = "userName, expired")})
 @Entity
 @Data
 public class MessageEntity {
@@ -26,6 +26,9 @@ public class MessageEntity {
 
     @Column
     private String text;
+
+    @Column
+    private Boolean expired;
 
     @Column(name = "expiration_time")
     private Date expirationTime;
